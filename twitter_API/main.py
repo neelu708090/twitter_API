@@ -1,4 +1,5 @@
 import settings
+from twitter_API.database import save_into_mongo
 from twitter_connection import api
 
 
@@ -20,15 +21,15 @@ def get_user_id(user):
 # print(get_user_id('TheShubhamtv'))
 
 '''Getting suer Followers'''
-list=[]
 def get_followers_id(user_id,cursor=-1):
     try:
         if get_remaining_get_followers() >=1:
             hello=api.get_followers(user_id=user_id,count=200,cursor=cursor)
-            list.append(hello[0])
-            print(hello[1][1])
+            for data in hello[0]:
+                save_into_mongo(data._json)
             if hello[1][1] != 0:
                 get_followers_id(user_id,cursor=hello[1][1])
+                pass
             else:
                 return -1
     except:
