@@ -2,6 +2,7 @@ import sys
 import os
 from os import getenv 
 from dotenv import load_dotenv
+import logging
 
 '''Insertion of paths in our program'''
 BASE_PATH = os.getcwd()
@@ -17,4 +18,13 @@ API_Key_Secret=getenv('API_Key_Secret',None)
 Access_Token=getenv('Access_Token',None)
 Access_Token_Secret=getenv('Access_Token_Secret',None)
 Bearer_Token=getenv('Bearer_Token',None)
+
+
+'''Logging settings for this project'''
+logger = logging.getLogger("tweepy")
+handler = logging.FileHandler(filename= getenv('worker_log_path',None))
+logger.setLevel(logging.DEBUG)
+logger.addHandler(handler)
+formatter = logging.Formatter('%(asctime)s:%(name)s:%(levelname)s:%(message)s')
+handler.setFormatter(formatter)
 
